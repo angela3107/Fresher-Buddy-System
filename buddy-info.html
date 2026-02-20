@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buddy System</title>
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Buddy System</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="register-fresher.html">Fresher Registration</a></li>
+                <li><a href="register-senior.html">Senior Registration</a></li>
+                <li><a href="buddy-info.html">Buddy Assignment</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Enquiries</h2>
+            <p>Welcome to the Fresher Enquiry Platform! Here, freshers can ask questions and seek guidance from senior buddies on academics, campus life, events, clubs, and university resources.</p>
+            <form id="enquiry-form">
+                <label for="fresher-name">Your Name:</label><br>
+                <input type="text" id="fresher-name" name="fresher-name" required><br><br>
+                <label for="enquiry">Your Enquiry:</label><br>
+                <textarea id="enquiry" name="enquiry" rows="4" cols="50" required></textarea><br><br>
+                <button type="submit">Submit Enquiry</button>
+            </form>
+            <div id="enquiry-response" style="margin-top:20px;"></div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2026 Fresher Buddy Assistance System</p>
+    </footer>
+</body>
+</html>
