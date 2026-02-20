@@ -58,6 +58,22 @@
         <script>
         document.querySelector('.registration-form').addEventListener('submit', function(e) {
             e.preventDefault();
+            const form = e.currentTarget;
+            const fresher = {
+                id: Date.now().toString() + Math.random().toString(36).slice(2,8),
+                name: form.name.value.trim(),
+                department: form.department.value.trim(),
+                interests: form.interests.value.trim(),
+                hostelDay: form['hostel-day'].value,
+                hobbies: form.hobbies.value.trim(),
+                languages: form.languages.value.trim(),
+                helpAreas: form['help-areas'].value,
+                email: form.email.value.trim()
+            };
+
+            // store fresher temporarily for matching page
+            sessionStorage.setItem('fresher', JSON.stringify(fresher));
+            // redirect to match page
             window.location.href = 'match-senior.html';
         });
         </script>
