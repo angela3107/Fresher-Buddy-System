@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campus Hub - Fresher Registration</title>
+    <title>Fresher Registration</title>
     <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
     <header>
-        <h1 style="font-weight:900; font-size:3rem; margin:0.5rem 0">Campus Hub</h1>
-        <h2 id="reg-heading" style="display:none;font-weight:700;font-size:1.8rem">Fresher Registration</h2>
+        <h1>Fresher Registration</h1>
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
@@ -20,14 +19,6 @@
         </nav>
     </header>
     <main>
-        <script>
-        if(sessionStorage.getItem('allowFresher') !== 'true'){
-            alert('Please access this page from the Home page');
-            window.location.href = 'index.html';
-        } else {
-            document.getElementById('reg-heading').style.display = 'block';
-        }
-        </script>
         <form class="registration-form">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required>
@@ -35,51 +26,40 @@
             <label for="department">Department:</label>
             <input type="text" id="department" name="department" required>
 
+            <label for="interests">Interests:</label>
+            <input type="text" id="interests" name="interests" required>
+
+            <label for="hostel-day">Hostel/Day Scholar:</label>
+            <select id="hostel-day" name="hostel-day" required>
+                <option value="hostel">Hostel</option>
+                <option value="day-scholar">Day Scholar</option>
+            </select>
+
+            <label for="hobbies">Hobbies:</label>
+            <input type="text" id="hobbies" name="hobbies" placeholder="e.g. Reading, Sports" required>
+
+            <label for="languages">Languages Known:</label>
+            <input type="text" id="languages" name="languages" placeholder="e.g. English, Hindi" required>
+
+            <label for="help-areas">Areas where you need help:</label>
+            <select id="help-areas" name="help-areas" required>
+                <option value="academics">Academics</option>
+                <option value="campus">Campus</option>
+                <option value="clubs">Clubs</option>
+                <option value="exams">Exams</option>
+                <option value="placement">Placement</option>
+            </select>
+
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
 
             <button type="submit">Register</button>
         </form>
-        <script type="module">
-// Initialize Firebase
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyDXQftYOHC0WBycDo_DFX-IJKUQZW6t544",
-  authDomain: "campus-hub-be22e.firebaseapp.com",
-  projectId: "campus-hub-be22e",
-  storageBucket: "campus-hub-be22e.firebasestorage.app",
-  messagingSenderId: "187537836950",
-  appId: "1:187537836950:web:7350b4af19d9faef422bb7",
-  measurementId: "G-FPD1P0MT9D"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-document.querySelector('.registration-form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const fresher = {
-        name: form.name.value.trim(),
-        department: form.department.value.trim(),
-        email: form.email.value.trim(),
-        createdAt: new Date().toISOString()
-    };
-
-    try {
-        // Save to Firestore
-        const docRef = await addDoc(collection(db, "freshers"), fresher);
-        sessionStorage.setItem('fresher', JSON.stringify({...fresher, id: docRef.id}));
-        alert('Registration successful! Redirecting to match seniors...');
-        window.location.href = 'match-senior.html';
-    } catch (error) {
-        console.error('Error saving to Firestore:', error);
-        alert('Error saving registration. Please try again.');
-    }
-});
+        <script>
+        document.querySelector('.registration-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            window.location.href = 'match-senior.html';
+        });
         </script>
     </main>
     <footer>
