@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Hub - Login & Signup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px 20px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .illustration {
+            font-size: 50px;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f5f5f5;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 30px 25px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .role-selection {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .role-option {
+            flex: 1;
+        }
+
+        .role-option input[type="radio"] {
+            display: none;
+        }
+
+        .role-label {
+            display: block;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .role-option input[type="radio"]:checked + .role-label {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+            transform: scale(1.02);
+        }
+
+        .role-label:hover {
+            border-color: #667eea;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .toggle-text {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .toggle-text a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .toggle-text a:hover {
+            text-decoration: underline;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 20px 0;
+            color: #999;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .quick-link {
+            display: inline-block;
+            padding: 8px 12px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #667eea;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-right: 8px;
+            margin-top: 8px;
+        }
+
+        .quick-link:hover {
+            background: #e8e8ff;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                border-radius: 15px;
+                max-width: 100%;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .tab-btn {
+                font-size: 13px;
+                padding: 12px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .role-selection {
+                flex-direction: column;
+            }
+
+            .tab-content {
+                padding: 20px 15px;
+            }
+        }
+
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="illustration">🎓</div>
+            <h1>Campus Hub</h1>
+            <p>Connect with mentors and grow together</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('login')">Login</button>
+            <button class="tab-btn" onclick="switchTab('signup')">Sign Up</button>
+        </div>
+
+        <!-- LOGIN TAB -->
+        <div id="login" class="tab-content active">
+            <div class="success-message" id="loginSuccess">Login successful! Redirecting...</div>
+
+            <div class="role-selection">
+                <div class="role-option">
+                    <input type="radio" id="loginStudent" name="loginRole" value="student" checked>
+                    <label for="loginStudent" class="role-label">👨‍🎓 Student</label>
+                </div>
+                <div class="role-option">
+                    <input type="radio" id="loginMentor" name="loginRole" value="mentor">
+                    <label for="loginMentor" class="role-label">👨‍🏫 Mentor</label>
+                </div>
+            </div>
+
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" name="email" required placeholder="your@university.edu">
+                </div>
+
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" name="password" required placeholder="Enter your password">
+                </div>
+
+                <div style="text-align: right; margin-bottom: 15px;">
+                    <a href="#" style="color: #667eea; text-decoration: none; font-size: 13px; font-weight: 600;">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="submit-btn">🔓 Login</button>
+            </form>
+
+            <div class="toggle-text">
+                Don't have an account? <a onclick="switchTab('signup')">Create one here</a>
+            </div>
+        </div>
+
+        <!-- SIGNUP TAB -->
+        <div id="signup" class="tab-content">
+            <div class="success-message" id="signupSuccess">Account created successfully! Logging in...</div>
+
+            <div class="role-selection">
+                <div class="role-option">
+                    <input type="radio" id="signupFresher" name="signupRole" value="fresher" checked>
+                    <label for="signupFresher" class="role-label">🌟 Fresher</label>
+                </div>
+                <div class="role-option">
+                    <input type="radio" id="signupMentor" name="signupRole" value="mentor">
+                    <label for="signupMentor" class="role-label">🌱 Mentor</label>
+                </div>
+            </div>
+
+            <form id="signupForm" onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" name="name" required placeholder="John Doe">
+                </div>
+
+                <div class="form-group">
+                    <label for="signupEmail">Email Address</label>
+                    <input type="email" id="signupEmail" name="email" required placeholder="your@university.edu">
+                </div>
+
+                <div class="form-group">
+                    <label for="signupDepartment">Department</label>
+                    <select id="signupDepartment" name="department" required>
+                        <option value="">Select your department</option>
+                        <option value="cse">Computer Science</option>
+                        <option value="ece">Electronics & Communication</option>
+                        <option value="mech">Mechanical Engineering</option>
+                        <option value="civil">Civil Engineering</option>
+                        <option value="ee">Electrical Engineering</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="signupYear">Year of Study</label>
+                    <select id="signupYear" name="year" required>
+                        <option value="">Select year</option>
+                        <option value="1">1st Year</option>
+                        <option value="2">2nd Year</option>
+                        <option value="3">3rd Year</option>
+                        <option value="4">4th Year</option>
+                        <option value="alumni">Alumni</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" name="password" required placeholder="Min. 8 characters">
+                </div>
+
+                <div class="form-group">
+                    <label for="signupConfirm">Confirm Password</label>
+                    <input type="password" id="signupConfirm" name="confirm" required placeholder="Re-enter password">
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <input type="checkbox" id="terms" required style="margin-right: 8px;">
+                    <label for="terms" style="display: inline; font-weight: normal; color: #666; font-size: 13px;">
+                        I agree to the <a href="#" style="color: #667eea; text-decoration: none;">Terms of Service</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn">🚀 Create Account</button>
+            </form>
+
+            <div class="toggle-text">
+                Already have an account? <a onclick="switchTab('login')">Login here</a>
+            </div>
+        </div>
+
+        <div class="footer-text">
+            🏫 Bringing students and mentors together on campus
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const role = document.querySelector('input[name="loginRole"]:checked').value;
+
+            // Show success message
+            document.getElementById('loginSuccess').style.display = 'block';
+            
+            // Simulate API call
+            console.log('Login:', { email, password, role });
+            setTimeout(() => {
+                alert(`Welcome back! Logged in as ${role}`);
+                document.getElementById('loginForm').reset();
+                document.getElementById('loginSuccess').style.display = 'none';
+            }, 1500);
+        }
+
+        function handleSignup(event) {
+            event.preventDefault();
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const department = document.getElementById('signupDepartment').value;
+            const year = document.getElementById('signupYear').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirm = document.getElementById('signupConfirm').value;
+            const role = document.querySelector('input[name="signupRole"]:checked').value;
+
+            if (password !== confirm) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            // Show success message
+            document.getElementById('signupSuccess').style.display = 'block';
+
+            // Simulate API call
+            console.log('Signup:', { name, email, department, year, role });
+            setTimeout(() => {
+                alert(`Welcome to Campus Hub, ${name}! Your account has been created.`);
+                document.getElementById('signupForm').reset();
+                document.getElementById('signupSuccess').style.display = 'none';
+                switchTab('login');
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
