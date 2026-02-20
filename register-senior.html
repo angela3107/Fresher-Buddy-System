@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campus Hub - Senior Registration</title>
+    <title>Senior Registration</title>
     <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
     <header>
-        <h1 style="font-weight:900; font-size:3rem; margin:0.5rem 0">Campus Hub</h1>
-        <h2 id="reg-heading" style="display:none;font-weight:700;font-size:1.8rem">Senior Registration</h2>
+        <h1>Senior Registration</h1>
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
@@ -20,14 +19,6 @@
         </nav>
     </header>
     <main>
-        <script>
-        if(sessionStorage.getItem('allowSenior') !== 'true'){
-            alert('Please access this page from the Home page');
-            window.location.href = 'index.html';
-        } else {
-            document.getElementById('reg-heading').style.display = 'block';
-        }
-        </script>
         <form class="registration-form">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required>
@@ -38,53 +29,23 @@
             <label for="year">Year:</label>
             <input type="text" id="year" name="year" required>
 
+            <label for="skills">Skills:</label>
+            <input type="text" id="skills" name="skills" placeholder="e.g. Java, Leadership" required>
+
+            <label for="mentoring-interests">Mentoring Interests:</label>
+            <input type="text" id="mentoring-interests" name="mentoring-interests" placeholder="e.g. Coding, Public Speaking" required>
+
+            <label for="clubs">Clubs they are part of:</label>
+            <input type="text" id="clubs" name="clubs" placeholder="e.g. Robotics, Drama" required>
+
+            <label for="interests">Interests:</label>
+            <input type="text" id="interests" name="interests">
+
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
+
             <button type="submit">Register</button>
         </form>
-        <div id="response" style="margin-top:1rem;color:green;font-weight:700"></div>
-        <script type="module">
-// Initialize Firebase
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyDXQftYOHC0WBycDo_DFX-IJKUQZW6t544",
-  authDomain: "campus-hub-be22e.firebaseapp.com",
-  projectId: "campus-hub-be22e",
-  storageBucket: "campus-hub-be22e.firebasestorage.app",
-  messagingSenderId: "187537836950",
-  appId: "1:187537836950:web:7350b4af19d9faef422bb7",
-  measurementId: "G-FPD1P0MT9D"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-document.querySelector('.registration-form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const senior = {
-        name: form.name.value.trim(),
-        department: form.department.value.trim(),
-        year: form.year.value.trim(),
-        email: form.email.value.trim(),
-        createdAt: new Date().toISOString()
-    };
-
-    try {
-        // Save to Firestore
-        const docRef = await addDoc(collection(db, "seniors"), senior);
-        document.getElementById('response').textContent = 'Registered senior successfully! You can see this senior when freshers search for matches.';
-        form.reset();
-    } catch (error) {
-        console.error('Error saving to Firestore:', error);
-        document.getElementById('response').textContent = 'Error saving registration. Please try again.';
-        document.getElementById('response').style.color = 'red';
-    }
-});
-        </script>
     </main>
     <footer>
         <p>&copy; 2026 Fresher Buddy Assistance System</p>
