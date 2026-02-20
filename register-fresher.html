@@ -26,9 +26,6 @@
             <label for="department">Department:</label>
             <input type="text" id="department" name="department" required>
 
-            <label for="interests">Interests:</label>
-            <input type="text" id="interests" name="interests" required>
-
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
 
@@ -42,11 +39,6 @@
                 id: Date.now().toString() + Math.random().toString(36).slice(2,8),
                 name: form.name.value.trim(),
                 department: form.department.value.trim(),
-                interests: form.interests.value.trim(),
-                hostelDay: form['hostel-day'].value,
-                hobbies: form.hobbies.value.trim(),
-                languages: form.languages.value.trim(),
-                helpAreas: form['help-areas'].value,
                 email: form.email.value.trim()
             };
 
