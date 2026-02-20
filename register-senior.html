@@ -40,26 +40,47 @@
             <button type="submit">Register</button>
         </form>
         <div id="response" style="margin-top:1rem;color:green;font-weight:700"></div>
-        <script>
-        document.querySelector('.registration-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const form = e.currentTarget;
-            const senior = {
-                id: Date.now().toString() + Math.random().toString(36).slice(2,8),
-                name: form.name.value.trim(),
-                department: form.department.value.trim(),
-                year: form.year.value.trim(),
-                email: form.email.value.trim()
-            };
+        <script type="module">
+// Initialize Firebase
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
-            const raw = localStorage.getItem('seniors');
-            const seniors = raw ? JSON.parse(raw) : [];
-            seniors.push(senior);
-            localStorage.setItem('seniors', JSON.stringify(seniors));
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDXQftYOHC0WBycDo_DFX-IJKUQZW6t544",
+  authDomain: "campus-hub-be22e.firebaseapp.com",
+  projectId: "campus-hub-be22e",
+  storageBucket: "campus-hub-be22e.firebasestorage.app",
+  messagingSenderId: "187537836950",
+  appId: "1:187537836950:web:7350b4af19d9faef422bb7",
+  measurementId: "G-FPD1P0MT9D"
+};
 
-            document.getElementById('response').textContent = 'Registered senior successfully. You can see this senior when freshers search for matches.';
-            form.reset();
-        });
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+document.querySelector('.registration-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const senior = {
+        name: form.name.value.trim(),
+        department: form.department.value.trim(),
+        year: form.year.value.trim(),
+        email: form.email.value.trim(),
+        createdAt: new Date().toISOString()
+    };
+
+    try {
+        // Save to Firestore
+        const docRef = await addDoc(collection(db, "seniors"), senior);
+        document.getElementById('response').textContent = 'Registered senior successfully! You can see this senior when freshers search for matches.';
+        form.reset();
+    } catch (error) {
+        console.error('Error saving to Firestore:', error);
+        document.getElementById('response').textContent = 'Error saving registration. Please try again.';
+        document.getElementById('response').style.color = 'red';
+    }
+});
         </script>
     </main>
     <footer>

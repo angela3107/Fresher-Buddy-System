@@ -43,77 +43,106 @@
     <footer>
         <p>&copy; 2026 Fresher Buddy Assistance System</p>
     </footer>
-    <script>
-        // Load fresher data from sessionStorage (set on registration)
-        const fresherRaw = sessionStorage.getItem('fresher');
-        const fresher = fresherRaw ? JSON.parse(fresherRaw) : null;
+    <script type="module">
+// Initialize Firebase
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
-        // Load seniors from localStorage (populated when seniors register). Fallback to example list.
-        const stored = localStorage.getItem('seniors');
-        let seniors = stored ? JSON.parse(stored) : [
-            { id:'s1', name: "Priya Sharma", email: "priya.senior@example.com", department: "CSE", interests: "AI, Coding, Sports" },
-            { id:'s2', name: "Rahul Verma", email: "rahul.senior@example.com", department: "ECE", interests: "Robotics, Music, Clubs" }
-        ];
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDXQftYOHC0WBycDo_DFX-IJKUQZW6t544",
+  authDomain: "campus-hub-be22e.firebaseapp.com",
+  projectId: "campus-hub-be22e",
+  storageBucket: "campus-hub-be22e.firebasestorage.app",
+  messagingSenderId: "187537836950",
+  appId: "1:187537836950:web:7350b4af19d9faef422bb7",
+  measurementId: "G-FPD1P0MT9D"
+};
 
-        const matchedSeniorsDiv = document.getElementById('matched-seniors');
-        const seniorEmailSelect = document.getElementById('senior-email');
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-        function tokenize(text){
-            if(!text) return [];
-            return text.split(/[,;|\/]+|\s+/).map(s=>s.trim().toLowerCase()).filter(Boolean);
-        }
+const matchedSeniorsDiv = document.getElementById('matched-seniors');
+const seniorEmailSelect = document.getElementById('senior-email');
 
-        function scoreMatch(f, s){
-            let score = 0;
-            const fTokens = tokenize(f.interests || f.mentoringInterests || '');
-            const sTokens = tokenize(s.interests || s.mentoringInterests || s.skills || '');
-            const set = new Set(sTokens);
-            fTokens.forEach(t=>{ if(set.has(t)) score++; });
-            // department match gives a small boost
-            if(f.department && s.department && f.department.trim().toLowerCase() === s.department.trim().toLowerCase()) score += 1;
-            return score;
-        }
+// Load fresher data from sessionStorage (set on registration)
+const fresherRaw = sessionStorage.getItem('fresher');
+const fresher = fresherRaw ? JSON.parse(fresherRaw) : null;
+
+function tokenize(text){
+    if(!text) return [];
+    return text.split(/[,;|\/]+|\s+/).map(s=>s.trim().toLowerCase()).filter(Boolean);
+}
+
+function scoreMatch(f, s){
+    let score = 0;
+    const fTokens = tokenize(f.department || '');
+    const sTokens = tokenize(s.department || '');
+    // department match gives a boost
+    if(f.department && s.department && f.department.trim().toLowerCase() === s.department.trim().toLowerCase()) score += 2;
+    return score;
+}
+
+async function loadAndDisplaySeniors(){
+    try {
+        const querySnapshot = await getDocs(collection(db, "seniors"));
+        const seniors = [];
+        querySnapshot.forEach((doc) => {
+            seniors.push({id: doc.id, ...doc.data()});
+        });
 
         if(!fresher){
             matchedSeniorsDiv.innerHTML = '<p>No fresher data found. Please register first via the Fresher Registration page.</p>';
-        } else {
-            // compute scores
-            const scored = seniors.map(s => ({s, score: scoreMatch(fresher, s)}));
-            scored.sort((a,b)=>b.score - a.score);
-            // show header with fresher name and interests
-            const header = document.createElement('p');
-            header.innerHTML = `<strong>Matches for ${fresher.name}</strong> — Interests: ${fresher.interests}`;
-            matchedSeniorsDiv.appendChild(header);
-
-            const top = scored.filter(x=>x.score>0);
-            const listToShow = top.length? top : scored.slice(0,5);
-
-            listToShow.forEach(item => {
-                const s = item.s;
-                const div = document.createElement('div');
-                div.className = 'nb-card';
-                div.style.marginBottom = '0.8rem';
-                div.innerHTML = `<h3 style="margin:.2rem 0">${s.name}</h3>
-                                 <div class="meta">${s.department || ''} — Score: ${item.score}</div>
-                                 <div>Interests: ${s.interests || s.mentoringInterests || s.skills || ''}</div>
-                                 <div>Email: ${s.email || ''}</div>`;
-                matchedSeniorsDiv.appendChild(div);
-
-                const option = document.createElement('option');
-                option.value = s.email || s.id;
-                option.textContent = `${s.name} (${s.department || '—'})`;
-                seniorEmailSelect.appendChild(option);
-            });
+            return;
         }
 
-        document.getElementById('help-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const selected = this['senior-email'].value;
-            const message = this['help-message'].value.trim();
-            // In a real app we'd send this to a backend; here we just show a confirmation
-            document.getElementById('help-response').textContent = `Your request has been prepared for ${selected}. Message: "${message}"`;
-            this.reset();
+        // compute scores
+        const scored = seniors.map(s => ({s, score: scoreMatch(fresher, s)}));
+        scored.sort((a,b)=>b.score - a.score);
+
+        if(scored.length === 0){
+            matchedSeniorsDiv.innerHTML = '<p>No seniors registered yet. Check back later!</p>';
+            return;
+        }
+
+        // show header with fresher name
+        const header = document.createElement('p');
+        header.innerHTML = `<strong>Matches for ${fresher.name}</strong> — Department: ${fresher.department || 'N/A'}`;
+        matchedSeniorsDiv.appendChild(header);
+
+        const top = scored.filter(x=>x.score>0);
+        const listToShow = top.length? top : scored.slice(0,5);
+
+        listToShow.forEach(item => {
+            const s = item.s;
+            const div = document.createElement('div');
+            div.className = 'nb-card';
+            div.style.marginBottom = '0.8rem';
+            div.innerHTML = `<h3 style="margin:.2rem 0">${s.name}</h3>
+                             <div class="meta">${s.department || ''} — Year: ${s.year || ''} — Match Score: ${item.score}</div>
+                             <div>Email: ${s.email || ''}</div>`;
+            matchedSeniorsDiv.appendChild(div);
+
+            const option = document.createElement('option');
+            option.value = s.email || s.id;
+            option.textContent = `${s.name} (${s.department || '—'})`;
+            seniorEmailSelect.appendChild(option);
         });
+    } catch (error) {
+        console.error('Error loading seniors:', error);
+        matchedSeniorsDiv.innerHTML = '<p>Error loading seniors. Please try again later.</p>';
+    }
+}
+
+loadAndDisplaySeniors();
+
+document.getElementById('help-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const selected = this['senior-email'].value;
+    const message = this['help-message'].value.trim();
+    document.getElementById('help-response').textContent = `Your request has been prepared for ${selected}. Message: "${message}"`;
+    this.reset();
+});
     </script>
 </body>
 </html>
