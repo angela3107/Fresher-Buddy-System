@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Senior Registration</title>
+    <title>Campus Hub - Senior Registration</title>
     <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
     <header>
-        <h1>Senior Registration</h1>
+        <h1 style="font-weight:900; font-size:3rem; margin:0.5rem 0">Campus Hub</h1>
+        <h2 id="reg-heading" style="display:none;font-weight:700;font-size:1.8rem">Senior Registration</h2>
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
@@ -23,6 +24,8 @@
         if(sessionStorage.getItem('allowSenior') !== 'true'){
             alert('Please access this page from the Home page');
             window.location.href = 'index.html';
+        } else {
+            document.getElementById('reg-heading').style.display = 'block';
         }
         </script>
         <form class="registration-form">
