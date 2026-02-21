@@ -601,6 +601,364 @@
             margin-bottom: 1rem;
             animation: fadeIn 0.3s;
         }
+
+        /* Messaging Styles */
+        .messages-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            height: calc(100vh - 200px);
+        }
+
+        .buddy-list {
+            background: white;
+            border-radius: 15px;
+            padding: 1rem;
+            overflow-y: auto;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .buddy-list h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .buddy-item {
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            background: #f5f5f5;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .buddy-item:hover {
+            background: #e8eaf6;
+            transform: translateX(5px);
+        }
+
+        .buddy-item.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .buddy-item-avatar {
+            font-size: 1.5rem;
+            min-width: 40px;
+        }
+
+        .buddy-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .buddy-item-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .buddy-item-status {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-window {
+            background: white;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .chat-header-avatar {
+            font-size: 2rem;
+        }
+
+        .chat-header-details h3 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .chat-header-details p {
+            margin: 0;
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            background: #f9f9f9;
+        }
+
+        .message-group {
+            display: flex;
+            margin-bottom: 1rem;
+            gap: 0.75rem;
+            animation: fadeIn 0.3s;
+        }
+
+        .message-group.own {
+            justify-content: flex-end;
+        }
+
+        .message-avatar {
+            font-size: 1.5rem;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e0e0e0;
+            flex-shrink: 0;
+        }
+
+        .message-content {
+            max-width: 70%;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .message-bubble {
+            background: white;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            word-wrap: break-word;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #667eea;
+        }
+
+        .message-group.own .message-bubble {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-left: none;
+            border-right: 4px solid white;
+        }
+
+        .message-file {
+            background: #f0f0f0;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .message-file:hover {
+            background: #e0e0e0;
+        }
+
+        .message-meeting {
+            background: #fff3cd;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            color: #856404;
+        }
+
+        .message-timestamp {
+            font-size: 0.75rem;
+            opacity: 0.6;
+            margin-top: 0.3rem;
+        }
+
+        .message-group.own .message-timestamp {
+            text-align: right;
+            opacity: 0.8;
+        }
+
+        .chat-input-area {
+            padding: 1.5rem;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .chat-input-wrapper {
+            flex: 1;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .chat-action-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 0.5rem;
+            border-radius: 50%;
+        }
+
+        .chat-action-btn:hover {
+            background: #f0f0f0;
+            transform: scale(1.1);
+        }
+
+        .chat-send-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .chat-send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .empty-chat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #999;
+        }
+
+        .empty-chat-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quick-share-modal {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .modal-close {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .messages-container {
+                grid-template-columns: 250px 1fr;
+            }
+
+            .message-content {
+                max-width: 85%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .messages-container {
+                grid-template-columns: 1fr;
+                height: auto;
+                gap: 1rem;
+            }
+
+            .buddy-list {
+                max-height: 200px;
+                order: 2;
+            }
+
+            .chat-window {
+                min-height: 500px;
+                order: 1;
+            }
+
+            .chat-messages {
+                height: 350px;
+            }
+
+            .message-content {
+                max-width: 100%;
+            }
+
+            .chat-header-details h3 {
+                font-size: 0.95rem;
+            }
+
+            .chat-header-details p {
+                font-size: 0.75rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -611,6 +969,7 @@
             <ul class="nav-links">
                 <li><a href="#" onclick="navigateTo('home'); return false;" class="nav-link active">Home</a></li>
                 <li><a href="#" onclick="navigateTo('discover'); return false;" class="nav-link">Find Buddies</a></li>
+                <li><a href="#" onclick="openMessaging(); return false;" class="nav-link">Messages</a></li>
                 <li><a href="#" onclick="navigateTo('about'); return false;" class="nav-link">About</a></li>
             </ul>
         </div>
@@ -625,6 +984,7 @@
                 <div class="tabs">
                     <button class="tab-btn active" onclick="switchTab('becomeBuddy')">Become a Buddy</button>
                     <button class="tab-btn" onclick="switchTab('findBuddies')">Find Buddies</button>
+                    <button class="tab-btn" onclick="switchTab('messaging')">Messages</button>
                 </div>
 
                 <!-- Become a Buddy Tab -->
@@ -711,6 +1071,40 @@
                     </div>
 
                     <div id="homeBuddiesContainer" class="buddies-grid"></div>
+                </div>
+
+                <!-- Messaging Tab -->
+                <div class="tab-content" id="messaging">
+                    <h2 style="color: #667eea; margin-bottom: 1.5rem;">💬 Messages</h2>
+                    <div class="messages-container">
+                        <div class="buddy-list">
+                            <h3>Your Conversations</h3>
+                            <div id="conversationsList"></div>
+                        </div>
+                        <div class="chat-window">
+                            <div id="chatWindowContent"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Share Modal -->
+                    <div class="modal-overlay" id="quickShareModal">
+                        <div class="quick-share-modal">
+                            <button class="modal-close" onclick="closeQuickShare()">×</button>
+                            <h3 style="margin-top: 0; color: #333;">Share Meeting Link</h3>
+                            <div class="form-group">
+                                <label>Meeting Link *</label>
+                                <input type="url" id="meetingUrl" placeholder="e.g., https://zoom.us/j/123456789" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Message (Optional)</label>
+                                <textarea id="meetingMessage" placeholder="Add a note about the meeting..." style="min-height: 60px;"></textarea>
+                            </div>
+                            <div style="display: flex; gap: 1rem;">
+                                <button class="btn btn-primary" style="flex: 1; margin: 0;" onclick="sendMeetingLink()">Send Link</button>
+                                <button class="btn btn-secondary" style="flex: 1; margin: 0;" onclick="closeQuickShare()">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1079,6 +1473,14 @@
             window.scrollTo(0, 0);
         }
 
+        // Open messaging
+        function openMessaging() {
+            navigateTo('home');
+            setTimeout(() => {
+                switchTab('messaging');
+            }, 100);
+        }
+
         // Display buddies in discover page
         function displayBuddies(buddyList) {
             const container = document.getElementById('buddiesContainer');
@@ -1164,10 +1566,13 @@
             document.getElementById('buddyModal').classList.remove('active');
         }
 
-        // Contact buddy
+        // Contact buddy - Open messaging
         function contactBuddy() {
-            alert(`Great! You've expressed interest in connecting with ${currentBuddy.name}. They'll receive your request and respond soon!`);
             closeModal();
+            switchTab('messaging');
+            setTimeout(() => {
+                openConversation(currentBuddy.id);
+            }, 100);
         }
 
         // Close modal on background click
@@ -1175,10 +1580,233 @@
             if (e.target === this) closeModal();
         });
 
+        // Messaging Variables
+        let conversations = {};
+        let selectedBuddyId = null;
+        const currentUserId = 'currentUser-' + Date.now();
+
+        // Load conversations from localStorage
+        function loadConversations() {
+            const stored = localStorage.getItem('conversations');
+            if (stored) {
+                conversations = JSON.parse(stored);
+            }
+        }
+
+        // Save conversations to localStorage
+        function saveConversations() {
+            localStorage.setItem('conversations', JSON.stringify(conversations));
+        }
+
+        // Initialize conversation with buddy
+        function initializeConversation(buddyId) {
+            if (!conversations[buddyId]) {
+                conversations[buddyId] = [];
+                saveConversations();
+            }
+        }
+
+        // Display conversations list
+        function displayConversations() {
+            const list = document.getElementById('conversationsList');
+            
+            if (allBuddies.length === 0) {
+                list.innerHTML = '<p style="text-align: center; color: #999; padding: 2rem 0;">No buddies available yet</p>';
+                return;
+            }
+
+            list.innerHTML = allBuddies.map(buddy => `
+                <div class="buddy-item ${selectedBuddyId === buddy.id ? 'active' : ''}" onclick="openConversation(${buddy.id})">
+                    <div class="buddy-item-avatar">${buddy.avatar}</div>
+                    <div class="buddy-item-info">
+                        <div class="buddy-item-name">${buddy.name}</div>
+                        <div class="buddy-item-status">${buddy.major}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Open conversation with buddy
+        function openConversation(buddyId) {
+            selectedBuddyId = buddyId;
+            const buddy = allBuddies.find(b => b.id === buddyId);
+            
+            initializeConversation(buddyId);
+            displayConversations();
+            displayChatWindow(buddy);
+        }
+
+        // Display chat window
+        function displayChatWindow(buddy) {
+            const content = document.getElementById('chatWindowContent');
+            
+            content.innerHTML = `
+                <div class="chat-header">
+                    <div class="chat-header-info">
+                        <div class="chat-header-avatar">${buddy.avatar}</div>
+                        <div class="chat-header-details">
+                            <h3>${buddy.name}</h3>
+                            <p>${buddy.major} • Year ${buddy.year}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-messages" id="messagesArea">
+                    ${renderMessages(buddy.id)}
+                </div>
+                <div class="chat-input-area">
+                    <div class="chat-input-wrapper">
+                        <input type="text" id="messageInput" class="chat-input" placeholder="Type your message..." onkeypress="if(event.key==='Enter') sendMessage(${buddy.id})">
+                        <button class="chat-action-btn" title="Share File" onclick="alert('File sharing coming soon!')">📎</button>
+                        <button class="chat-action-btn" title="Share Meeting Link" onclick="openQuickShare()">🎥</button>
+                    </div>
+                    <button class="chat-send-btn" onclick="sendMessage(${buddy.id})">Send</button>
+                </div>
+            `;
+
+            // Auto scroll to bottom
+            setTimeout(() => {
+                const messagesArea = document.getElementById('messagesArea');
+                if (messagesArea) messagesArea.scrollTop = messagesArea.scrollHeight;
+            }, 100);
+        }
+
+        // Render messages
+        function renderMessages(buddyId) {
+            const messages = conversations[buddyId] || [];
+            
+            if (messages.length === 0) {
+                return `
+                    <div class="empty-chat">
+                        <div class="empty-chat-icon">💬</div>
+                        <p>No messages yet. Start the conversation!</p>
+                    </div>
+                `;
+            }
+
+            return messages.map((msg, idx) => {
+                const isOwn = msg.sender === currentUserId;
+                let content = '';
+
+                if (msg.type === 'text') {
+                    content = `<div class="message-bubble">${escapeHtml(msg.text)}</div>`;
+                } else if (msg.type === 'file') {
+                    content = `<div class="message-file">📎 ${escapeHtml(msg.fileName)}</div>`;
+                } else if (msg.type === 'meeting') {
+                    content = `
+                        <div class="message-meeting">
+                            <strong>📹 Meeting Link</strong><br>
+                            ${msg.message ? '<p style="margin: 0.5rem 0 0 0;">' + escapeHtml(msg.message) + '</p>' : ''}
+                            <a href="${escapeHtml(msg.meetingUrl)}" target="_blank" style="color: #0066cc; text-decoration: underline; word-break: break-all;">
+                                ${escapeHtml(msg.meetingUrl)}
+                            </a>
+                        </div>
+                    `;
+                }
+
+                return `
+                    <div class="message-group ${isOwn ? 'own' : ''}">
+                        ${!isOwn ? '<div class="message-avatar"></div>' : ''}
+                        <div class="message-content">
+                            ${content}
+                            <div class="message-timestamp">${new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Send message
+        function sendMessage(buddyId) {
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+
+            if (!text) return;
+
+            const message = {
+                sender: currentUserId,
+                text: text,
+                type: 'text',
+                timestamp: new Date().getTime()
+            };
+
+            conversations[buddyId].push(message);
+            saveConversations();
+
+            input.value = '';
+            displayChatWindow(allBuddies.find(b => b.id === buddyId));
+            input.focus();
+        }
+
+        // Open quick share modal
+        function openQuickShare() {
+            document.getElementById('quickShareModal').classList.add('active');
+        }
+
+        // Close quick share modal
+        function closeQuickShare() {
+            document.getElementById('quickShareModal').classList.remove('active');
+            document.getElementById('meetingUrl').value = '';
+            document.getElementById('meetingMessage').value = '';
+        }
+
+        // Send meeting link
+        function sendMeetingLink() {
+            const url = document.getElementById('meetingUrl').value.trim();
+            const message = document.getElementById('meetingMessage').value.trim();
+
+            if (!url) {
+                alert('Please enter a meeting link');
+                return;
+            }
+
+            if (!url.startsWith('http')) {
+                alert('Please enter a valid URL');
+                return;
+            }
+
+            const meetingMessage = {
+                sender: currentUserId,
+                meetingUrl: url,
+                message: message || '',
+                type: 'meeting',
+                timestamp: new Date().getTime()
+            };
+
+            conversations[selectedBuddyId].push(meetingMessage);
+            saveConversations();
+
+            closeQuickShare();
+            displayChatWindow(allBuddies.find(b => b.id === selectedBuddyId));
+        }
+
+        // Escape HTML to prevent XSS
+        function escapeHtml(unsafe) {
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // Show empty chat initially
+        function showEmptyChat() {
+            const content = document.getElementById('chatWindowContent');
+            content.innerHTML = `
+                <div class="empty-chat">
+                    <div class="empty-chat-icon">💭</div>
+                    <p>Select a buddy to start messaging</p>
+                </div>
+            `;
+        }
+
         // Initialize
         loadBuddies();
+        loadConversations();
         displayBuddies(allBuddies);
         displayHomeBuddies(allBuddies);
+        displayConversations();
+        showEmptyChat();
     </script>
 </body>
 </html>
