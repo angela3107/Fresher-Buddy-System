@@ -1,4 +1,8 @@
 <p align="center">
+  <img src="./img.png" alt="Project Banner" width="100%">
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/Campus%20Buddy-v1.0.0-blue" alt="Version">
   <img src="https://img.shields.io/badge/License-MIT-green" alt="License">
   <img src="https://img.shields.io/badge/Status-Active-brightgreen" alt="Status">
