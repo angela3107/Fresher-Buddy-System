@@ -3,27 +3,801 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campus Hub</title>
-    <link rel="stylesheet" href="assets/styles.css">
+    <title>Campus Buddy - Find Your Perfect Academic Mentor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+        }
+
+        nav .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+
+        nav .nav-links a:hover,
+        nav .nav-links a.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Page Views */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Section */
+        .hero {
+            color: white;
+            text-align: center;
+            padding: 4rem 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.5);
+            background: #f8f8f8;
+        }
+
+        /* Search Section */
+        .search-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .search-section h2 {
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .search-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .search-controls input,
+        .search-controls select {
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .search-controls input:focus,
+        .search-controls select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Buddy Grid */
+        .buddies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .buddy-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .buddy-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .buddy-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem 1rem;
+            text-align: center;
+            color: white;
+        }
+
+        .buddy-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+        }
+
+        .buddy-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .buddy-major {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .buddy-body {
+            padding: 1.5rem;
+        }
+
+        .buddy-info {
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .buddy-info label {
+            color: #667eea;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .buddy-expertise {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .expertise-tag {
+            background: #e8eaf6;
+            color: #667eea;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .buddy-rating {
+            color: #ffc107;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .buddy-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .buddy-actions .btn {
+            flex: 1;
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
+            margin: 0;
+            text-align: center;
+        }
+
+        /* Filters */
+        .filter-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 1rem;
+        }
+
+        .modal-header h2 {
+            color: #333;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .buddy-details {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .buddy-details h3 {
+            color: #667eea;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            text-align: center;
+            color: #666;
+            margin-top: 3rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav .nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .buddies-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-controls {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .hero-buttons .btn {
+                width: 100%;
+            }
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            background: white;
+            border-radius: 15px;
+        }
+
+        .no-results p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1 style="font-weight:900; font-size:3rem; margin:0.5rem 0">Campus Hub</h1>
-    </header>
-    <main>
-        <section>
-            <h2 >welcome to the Fresher Buddy Assistance System</h2>
-            <p>This platform connects newly admitted students (freshers) with experienced senior students who act as mentors or buddies. Get guidance on academics, campus life, events, clubs, and more!</p>
-            <p>Get started now:</p>
-            <ul>
-                <li><a href="login.html">Login / Sign Up</a></li>
-                <li><a href="register-fresher.html" onclick="sessionStorage.setItem('allowFresher', 'true')">Quick Fresher Registration</a></li>
-                <li><a href="register-senior.html" onclick="sessionStorage.setItem('allowSenior', 'true')">Quick Senior Registration</a></li>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo" onclick="navigateTo('home')">🎓 Campus Buddy</div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="navigateTo('home'); return false;" class="nav-link active">Home</a></li>
+                <li><a href="#" onclick="navigateTo('discover'); return false;" class="nav-link">Find Buddies</a></li>
+                <li><a href="#" onclick="navigateTo('about'); return false;" class="nav-link">About</a></li>
             </ul>
-        </section>
-    </main>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div class="page active" id="home">
+        <div class="hero">
+            <h1>Welcome to Campus Buddy</h1>
+            <p>Connect with experienced senior students and get the guidance you need to excel in your academic journey</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="navigateTo('discover')">Find Your Perfect Buddy</button>
+                <button class="btn btn-secondary" onclick="navigateTo('about')">Learn More</button>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">1000+</div>
+                    <div class="stat-label">Active Buddies</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2500+</div>
+                    <div class="stat-label">Freshers Helped</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Student Satisfaction</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Discover Buddies Page -->
+    <div class="page" id="discover">
+        <div class="container">
+            <h1 style="color: white; margin-bottom: 2rem; font-size: 2.5rem;">Find Your Campus Buddy</h1>
+
+            <div class="search-section">
+                <h2>🔍 Search & Filter</h2>
+                <div class="search-controls">
+                    <input type="text" id="searchInput" placeholder="Search by name or expertise..." onkeyup="filterBuddies()">
+                    <select id="majorFilter" onchange="filterBuddies()">
+                        <option value="">All Majors</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Engineering">Engineering</option>
+                        <option value="Business">Business</option>
+                        <option value="Medicine">Medicine</option>
+                        <option value="Arts">Arts</option>
+                    </select>
+                    <select id="ratingFilter" onchange="filterBuddies()">
+                        <option value="">All Ratings</option>
+                        <option value="5">⭐ 5 Stars</option>
+                        <option value="4">⭐ 4+ Stars</option>
+                        <option value="3">⭐ 3+ Stars</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="buddiesContainer" class="buddies-grid"></div>
+        </div>
+    </div>
+
+    <!-- About Page -->
+    <div class="page" id="about">
+        <div class="container">
+            <div style="background: white; padding: 2rem; border-radius: 15px; color: #333;">
+                <h1 style="color: #667eea; margin-bottom: 1.5rem;">About Campus Buddy</h1>
+                <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1rem;">
+                    Campus Buddy is a platform designed to connect freshers with experienced senior students who serve as mentors and buddies throughout their academic journey.
+                </p>
+                <h2 style="color: #667eea; margin-top: 2rem; margin-bottom: 1rem;">Why Campus Buddy?</h2>
+                <ul style="margin-left: 2rem; line-height: 1.8; font-size: 1rem;">
+                    <li>📚 Get guidance on academics and course selection</li>
+                    <li>🏫 Learn about campus life and traditions</li>
+                    <li>🎯 Navigate university resources and opportunities</li>
+                    <li>🤝 Build meaningful mentoring relationships</li>
+                    <li>🌟 Access a diverse network of experienced students</li>
+                </ul>
+                <h2 style="color: #667eea; margin-top: 2rem; margin-bottom: 1rem;">How It Works</h2>
+                <p style="font-size: 1.1rem; line-height: 1.8;">
+                    Simply browse through our list of buddies, filter by major or expertise, read their profiles, and connect with someone who matches your needs. Each buddy has ratings and reviews from other freshers they've helped.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Buddy Detail Modal -->
+    <div class="modal" id="buddyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Buddy Profile</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="buddyDetailsContainer" class="buddy-details"></div>
+            <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                <button class="btn btn-primary" style="flex: 1;" onclick="contactBuddy()">Contact Buddy</button>
+                <button class="btn btn-secondary" style="flex: 1;" onclick="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
     <footer>
-        <p>&copy; 2026 Fresher Buddy Assistance System</p>
+        <p>&copy; 2026 Campus Buddy. Empowering freshers, one mentor at a time.</p>
     </footer>
+
+    <script>
+        // Sample buddy data
+        const buddies = [
+            {
+                id: 1,
+                name: "Sarah Johnson",
+                major: "Computer Science",
+                year: 3,
+                rating: 5,
+                reviews: 47,
+                avatar: "👨‍💼",
+                expertise: ["Data Structures", "Web Development", "DSA"],
+                bio: "Passionate about computer science and love helping freshers transition into college life. I've mentored over 50 students and love making their journey smoother.",
+                experience: "3 years of mentoring, published 2 papers",
+                availability: "Weekdays after 2 PM"
+            },
+            {
+                id: 2,
+                name: "Michael Chen",
+                major: "Engineering",
+                year: 4,
+                rating: 4.8,
+                reviews: 52,
+                avatar: "👨‍🔬",
+                expertise: ["Circuit Design", "Robotics", "CAD"],
+                bio: "Engineering enthusiast with hands-on project experience. I love guiding freshers through their first projects and helping them build confidence.",
+                experience: "4 years mentoring, 3 startup projects",
+                availability: "Flexible scheduling"
+            },
+            {
+                id: 3,
+                name: "Emily Rodriguez",
+                major: "Business",
+                year: 2,
+                rating: 4.9,
+                reviews: 38,
+                avatar: "👩‍💼",
+                expertise: ["Finance", "Marketing", "Leadership"],
+                bio: "Business student focused on helping freshers understand curriculum and explore internship opportunities. Always available for quick chats!",
+                experience: "2 years mentoring, interned at 3 companies",
+                availability: "Daily, mostly evenings"
+            },
+            {
+                id: 4,
+                name: "David Park",
+                major: "Computer Science",
+                year: 3,
+                rating: 4.7,
+                reviews: 41,
+                avatar: "👨‍💻",
+                expertise: ["Machine Learning", "Python", "AI"],
+                bio: "ML enthusiast excited to help freshers develop programming skills and explore AI. Patient teacher and very responsive to questions.",
+                experience: "3 years mentoring, contributed to 2 open-source projects",
+                availability: "Weekends and weekday mornings"
+            },
+            {
+                id: 5,
+                name: "Jessica Wong",
+                major: "Medicine",
+                year: 2,
+                rating: 5,
+                reviews: 29,
+                avatar: "👩‍⚕️",
+                expertise: ["Anatomy", "Biochemistry", "Study Tips"],
+                bio: "Pre-med student here to help navigate the challenging coursework and provide study strategies that actually work for medical students.",
+                experience: "2 years mentoring, GPA 3.95",
+                availability: "Flexible"
+            },
+            {
+                id: 6,
+                name: "Alex Thompson",
+                major: "Arts",
+                year: 4,
+                rating: 4.6,
+                reviews: 35,
+                avatar: "👨‍🎓",
+                expertise: ["Literature", "Writing", "Research"],
+                bio: "Literature major passionate about helping freshers develop critical thinking and research skills. Love discussing ideas and fostering intellectual growth.",
+                experience: "4 years mentoring, published 3 essays",
+                availability: "Afternoons and weekends"
+            },
+            {
+                id: 7,
+                name: "Lisa Martinez",
+                major: "Engineering",
+                year: 3,
+                rating: 4.8,
+                reviews: 44,
+                avatar: "👩‍🔧",
+                expertise: ["Mechanical Systems", "Project Management", "Coding"],
+                bio: "Mechanical engineer passionate about mentoring. I help freshers balance academics with personal growth and discover their passions.",
+                experience: "3 years mentoring, team lead on 2 projects",
+                availability: "Weekday evenings"
+            },
+            {
+                id: 8,
+                name: "James Wilson",
+                major: "Business",
+                year: 3,
+                rating: 4.9,
+                reviews: 48,
+                avatar: "👨‍💼",
+                expertise: ["Economics", "Entrepreneurship", "Analytics"],
+                bio: "Business enthusiast with startup experience. I love mentoring freshers interested in entrepreneurship and helping them explore career paths.",
+                experience: "3 years mentoring, started 2 businesses",
+                availability: "Flexible scheduling"
+            }
+        ];
+
+        let filteredBuddies = [...buddies];
+        let currentBuddy = null;
+
+        // Navigation
+        function navigateTo(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(page).classList.add('active');
+            
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (page === 'discover') {
+                displayBuddies(filteredBuddies);
+            }
+
+            window.scrollTo(0, 0);
+        }
+
+        // Display buddies
+        function displayBuddies(buddyList) {
+            const container = document.getElementById('buddiesContainer');
+            
+            if (buddyList.length === 0) {
+                container.innerHTML = '<div class="no-results" style="grid-column: 1/-1;"><p>No buddies match your criteria. Try adjusting your filters!</p></div>';
+                return;
+            }
+
+            container.innerHTML = buddyList.map(buddy => `
+                <div class="buddy-card" onclick="openBuddyModal(${buddy.id})">
+                    <div class="buddy-header">
+                        <div class="buddy-avatar">${buddy.avatar}</div>
+                        <div class="buddy-name">${buddy.name}</div>
+                        <div class="buddy-major">${buddy.major} • Year ${buddy.year}</div>
+                    </div>
+                    <div class="buddy-body">
+                        <div class="buddy-rating">⭐ ${buddy.rating} (${buddy.reviews} reviews)</div>
+                        <div class="buddy-expertise">
+                            ${buddy.expertise.map(exp => `<span class="expertise-tag">${exp}</span>`).join('')}
+                        </div>
+                        <div class="buddy-actions">
+                            <button class="btn btn-primary">View Profile</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter buddies
+        function filterBuddies() {
+            const searchText = document.getElementById('searchInput').value.toLowerCase();
+            const major = document.getElementById('majorFilter').value;
+            const rating = parseFloat(document.getElementById('ratingFilter').value) || 0;
+
+            filteredBuddies = buddies.filter(buddy => {
+                const matchesSearch = buddy.name.toLowerCase().includes(searchText) ||
+                                    buddy.expertise.some(exp => exp.toLowerCase().includes(searchText));
+                const matchesMajor = !major || buddy.major === major;
+                const matchesRating = !rating || buddy.rating >= rating;
+
+                return matchesSearch && matchesMajor && matchesRating;
+            });
+
+            displayBuddies(filteredBuddies);
+        }
+
+        // Open buddy modal
+        function openBuddyModal(buddyId) {
+            currentBuddy = buddies.find(b => b.id === buddyId);
+            const container = document.getElementById('buddyDetailsContainer');
+            
+            container.innerHTML = `
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">${currentBuddy.avatar}</div>
+                    <h2 style="margin-bottom: 0.5rem;">${currentBuddy.name}</h2>
+                    <p style="color: #667eea; font-weight: 600; margin-bottom: 1rem;">${currentBuddy.major} • Year ${currentBuddy.year}</p>
+                    <div style="color: #ffc107; font-size: 1.2rem; margin-bottom: 1rem;">
+                        ⭐ ${currentBuddy.rating} (${currentBuddy.reviews} reviews)
+                    </div>
+                </div>
+
+                <h3>About</h3>
+                <p>${currentBuddy.bio}</p>
+
+                <h3>Expertise</h3>
+                <div class="buddy-expertise">
+                    ${currentBuddy.expertise.map(exp => `<span class="expertise-tag">${exp}</span>`).join('')}
+                </div>
+
+                <h3>Experience</h3>
+                <p>${currentBuddy.experience}</p>
+
+                <h3>Availability</h3>
+                <p>${currentBuddy.availability}</p>
+            `;
+
+            document.getElementById('buddyModal').classList.add('active');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('buddyModal').classList.remove('active');
+        }
+
+        // Contact buddy
+        function contactBuddy() {
+            alert(`Great! You've expressed interest in connecting with ${currentBuddy.name}. They'll receive your request and respond soon!`);
+            closeModal();
+        }
+
+        // Close modal on background click
+        document.getElementById('buddyModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // Initialize
+        displayBuddies(buddies);
+    </script>
 </body>
 </html>
