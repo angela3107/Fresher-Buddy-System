@@ -456,6 +456,151 @@
             font-size: 1.1rem;
             margin-bottom: 1rem;
         }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .expertise-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .expertise-input input {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .expertise-input button {
+            padding: 0.8rem 1.5rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .expertise-input button:hover {
+            background: #764ba2;
+        }
+
+        .expertise-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .expertise-item {
+            background: #e8eaf6;
+            color: #667eea;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .expertise-item button {
+            background: none;
+            border: none;
+            color: #667eea;
+            cursor: pointer;
+            font-weight: bold;
+            padding: 0;
+            font-size: 1rem;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-actions .btn {
+            flex: 1;
+        }
+
+        .success-message {
+            background: #4caf50;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            animation: fadeIn 0.3s;
+        }
     </style>
 </head>
 <body>
@@ -473,28 +618,99 @@
 
     <!-- Home Page -->
     <div class="page active" id="home">
-        <div class="hero">
-            <h1>Welcome to Campus Buddy</h1>
-            <p>Connect with experienced senior students and get the guidance you need to excel in your academic journey</p>
-            <div class="hero-buttons">
-                <button class="btn btn-primary" onclick="navigateTo('discover')">Find Your Perfect Buddy</button>
-                <button class="btn btn-secondary" onclick="navigateTo('about')">Learn More</button>
-            </div>
-        </div>
-
         <div class="container">
-            <div class="stats">
-                <div class="stat-card">
-                    <div class="stat-number">1000+</div>
-                    <div class="stat-label">Active Buddies</div>
+            <div style="background: white; border-radius: 15px; padding: 2rem; margin-bottom: 2rem;">
+                <h1 style="color: #333; margin-bottom: 1.5rem;">Welcome to Campus Buddy</h1>
+                
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="switchTab('becomeBuddy')">Become a Buddy</button>
+                    <button class="tab-btn" onclick="switchTab('findBuddies')">Find Buddies</button>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number">2500+</div>
-                    <div class="stat-label">Freshers Helped</div>
+
+                <!-- Become a Buddy Tab -->
+                <div class="tab-content active" id="becomeBuddy">
+                    <h2 style="color: #667eea; margin-bottom: 1.5rem;">Join Our Mentor Community</h2>
+                    <p style="color: #666; margin-bottom: 2rem;">Help freshers navigate their academic journey. Fill out the form below to become a buddy!</p>
+
+                    <div id="buddyFormMessage"></div>
+
+                    <form id="buddyForm">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                            <div class="form-group">
+                                <label>Full Name *</label>
+                                <input type="text" id="formName" placeholder="Enter your full name" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Major/Field of Study *</label>
+                                <select id="formMajor" required>
+                                    <option value="">Select your major</option>
+                                    <option value="Computer Science">Computer Science</option>
+                                    <option value="Engineering">Engineering</option>
+                                    <option value="Business">Business</option>
+                                    <option value="Medicine">Medicine</option>
+                                    <option value="Arts">Arts</option>
+                                    <option value="Science">Science</option>
+                                    <option value="Law">Law</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Year of Study *</label>
+                                <select id="formYear" required>
+                                    <option value="">Select your year</option>
+                                    <option value="2">2nd Year</option>
+                                    <option value="3">3rd Year</option>
+                                    <option value="4">4th Year</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>About You *</label>
+                            <textarea id="formBio" placeholder="Tell us about yourself and why you want to be a buddy..." required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Areas of Expertise/Skills</label>
+                            <div class="expertise-input">
+                                <input type="text" id="expertiseInput" placeholder="e.g., Data Structures, Web Development...">
+                                <button type="button" onclick="addExpertise()">Add</button>
+                            </div>
+                            <div class="expertise-list" id="expertiseList"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Availability *</label>
+                            <input type="text" id="formAvailability" placeholder="e.g., Weekdays after 2 PM, Flexible...">
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Register as Buddy</button>
+                            <button type="reset" class="btn btn-secondary" onclick="resetExpertise()">Clear Form</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number">100%</div>
-                    <div class="stat-label">Student Satisfaction</div>
+
+                <!-- Find Buddies Tab -->
+                <div class="tab-content" id="findBuddies">
+                    <h2 style="color: #667eea; margin-bottom: 1.5rem;">Find Your Perfect Buddy</h2>
+                    
+                    <div class="search-controls" style="margin-bottom: 2rem;">
+                        <input type="text" id="homeSearchInput" placeholder="Search by name or expertise..." onkeyup="filterHomeBuddies()">
+                        <select id="homeMajorFilter" onchange="filterHomeBuddies()">
+                            <option value="">All Majors</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Business">Business</option>
+                            <option value="Medicine">Medicine</option>
+                            <option value="Arts">Arts</option>
+                            <option value="Science">Science</option>
+                            <option value="Law">Law</option>
+                        </select>
+                    </div>
+
+                    <div id="homeBuddiesContainer" class="buddies-grid"></div>
                 </div>
             </div>
         </div>
@@ -574,8 +790,13 @@
     </footer>
 
     <script>
-        // Sample buddy data
-        const buddies = [
+        // Initialize buddies from localStorage or use dummy data
+        let allBuddies = [];
+        let filteredBuddies = [];
+        let currentBuddy = null;
+        let currentExpertise = [];
+
+        const dummyBuddies = [
             {
                 id: 1,
                 name: "Sarah Johnson",
@@ -682,8 +903,166 @@
             }
         ];
 
-        let filteredBuddies = [...buddies];
-        let currentBuddy = null;
+        // Load buddies from localStorage
+        function loadBuddies() {
+            const storedBuddies = localStorage.getItem('buddies');
+            if (storedBuddies) {
+                allBuddies = JSON.parse(storedBuddies);
+            } else {
+                // Use dummy data if no stored buddies
+                allBuddies = [...dummyBuddies];
+            }
+            filteredBuddies = [...allBuddies];
+        }
+
+        // Save buddies to localStorage
+        function saveBuddies() {
+            localStorage.setItem('buddies', JSON.stringify(allBuddies));
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            // Load buddies when switching to find buddies tab
+            if (tabName === 'findBuddies') {
+                filterHomeBuddies();
+            }
+        }
+
+        // Add expertise
+        function addExpertise() {
+            const input = document.getElementById('expertiseInput');
+            const value = input.value.trim();
+
+            if (value === '') {
+                alert('Please enter an expertise');
+                return;
+            }
+
+            if (currentExpertise.includes(value)) {
+                alert('This expertise is already added');
+                return;
+            }
+
+            currentExpertise.push(value);
+            input.value = '';
+            updateExpertiseDisplay();
+        }
+
+        // Remove expertise
+        function removeExpertise(index) {
+            currentExpertise.splice(index, 1);
+            updateExpertiseDisplay();
+        }
+
+        // Update expertise display
+        function updateExpertiseDisplay() {
+            const list = document.getElementById('expertiseList');
+            list.innerHTML = currentExpertise.map((exp, idx) => `
+                <div class="expertise-item">
+                    <span>${exp}</span>
+                    <button type="button" onclick="removeExpertise(${idx})">×</button>
+                </div>
+            `).join('');
+        }
+
+        // Reset expertise
+        function resetExpertise() {
+            currentExpertise = [];
+            updateExpertiseDisplay();
+        }
+
+        // Handle form submission
+        document.getElementById('buddyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const newBuddy = {
+                id: Date.now(),
+                name: document.getElementById('formName').value,
+                major: document.getElementById('formMajor').value,
+                year: parseInt(document.getElementById('formYear').value),
+                rating: 5,
+                reviews: 0,
+                avatar: ['👨‍💼', '👨‍🔬', '👩‍💼', '👨‍💻', '👩‍⚕️', '👨‍🎓', '👩‍🔧'][Math.floor(Math.random() * 7)],
+                expertise: [...currentExpertise],
+                bio: document.getElementById('formBio').value,
+                experience: "Recently joined as a mentor",
+                availability: document.getElementById('formAvailability').value
+            };
+
+            allBuddies.push(newBuddy);
+            saveBuddies();
+
+            // Show success message
+            const messageDiv = document.getElementById('buddyFormMessage');
+            messageDiv.innerHTML = '<div class="success-message">✓ Welcome to Campus Buddy! Your profile has been created successfully.</div>';
+
+            // Reset form
+            this.reset();
+            resetExpertise();
+
+            // Clear message after 3 seconds
+            setTimeout(() => {
+                messageDiv.innerHTML = '';
+            }, 3000);
+        });
+
+        // Display buddies in home tab
+        function displayHomeBuddies(buddyList) {
+            const container = document.getElementById('homeBuddiesContainer');
+            
+            if (buddyList.length === 0) {
+                container.innerHTML = '<div class="no-results" style="grid-column: 1/-1;"><p>No buddies found. Be the first to register!</p></div>';
+                return;
+            }
+
+            container.innerHTML = buddyList.map(buddy => `
+                <div class="buddy-card" onclick="openBuddyModal(${buddy.id})">
+                    <div class="buddy-header">
+                        <div class="buddy-avatar">${buddy.avatar}</div>
+                        <div class="buddy-name">${buddy.name}</div>
+                        <div class="buddy-major">${buddy.major} • Year ${buddy.year}</div>
+                    </div>
+                    <div class="buddy-body">
+                        <div class="buddy-rating">⭐ ${buddy.rating.toFixed(1)} (${buddy.reviews} reviews)</div>
+                        <div class="buddy-expertise">
+                            ${buddy.expertise.map(exp => `<span class="expertise-tag">${exp}</span>`).join('')}
+                        </div>
+                        <div class="buddy-actions">
+                            <button class="btn btn-primary">View Profile</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter buddies in home tab
+        function filterHomeBuddies() {
+            const searchText = document.getElementById('homeSearchInput').value.toLowerCase();
+            const major = document.getElementById('homeMajorFilter').value;
+
+            filteredBuddies = allBuddies.filter(buddy => {
+                const matchesSearch = buddy.name.toLowerCase().includes(searchText) ||
+                                    buddy.expertise.some(exp => exp.toLowerCase().includes(searchText));
+                const matchesMajor = !major || buddy.major === major;
+
+                return matchesSearch && matchesMajor;
+            });
+
+            displayHomeBuddies(filteredBuddies);
+        }
 
         // Navigation
         function navigateTo(page) {
@@ -694,13 +1073,13 @@
             event.target.classList.add('active');
 
             if (page === 'discover') {
-                displayBuddies(filteredBuddies);
+                displayBuddies(allBuddies);
             }
 
             window.scrollTo(0, 0);
         }
 
-        // Display buddies
+        // Display buddies in discover page
         function displayBuddies(buddyList) {
             const container = document.getElementById('buddiesContainer');
             
@@ -717,7 +1096,7 @@
                         <div class="buddy-major">${buddy.major} • Year ${buddy.year}</div>
                     </div>
                     <div class="buddy-body">
-                        <div class="buddy-rating">⭐ ${buddy.rating} (${buddy.reviews} reviews)</div>
+                        <div class="buddy-rating">⭐ ${buddy.rating.toFixed(1)} (${buddy.reviews} reviews)</div>
                         <div class="buddy-expertise">
                             ${buddy.expertise.map(exp => `<span class="expertise-tag">${exp}</span>`).join('')}
                         </div>
@@ -729,13 +1108,13 @@
             `).join('');
         }
 
-        // Filter buddies
+        // Filter buddies in discover page
         function filterBuddies() {
             const searchText = document.getElementById('searchInput').value.toLowerCase();
             const major = document.getElementById('majorFilter').value;
             const rating = parseFloat(document.getElementById('ratingFilter').value) || 0;
 
-            filteredBuddies = buddies.filter(buddy => {
+            filteredBuddies = allBuddies.filter(buddy => {
                 const matchesSearch = buddy.name.toLowerCase().includes(searchText) ||
                                     buddy.expertise.some(exp => exp.toLowerCase().includes(searchText));
                 const matchesMajor = !major || buddy.major === major;
@@ -749,7 +1128,7 @@
 
         // Open buddy modal
         function openBuddyModal(buddyId) {
-            currentBuddy = buddies.find(b => b.id === buddyId);
+            currentBuddy = allBuddies.find(b => b.id === buddyId);
             const container = document.getElementById('buddyDetailsContainer');
             
             container.innerHTML = `
@@ -758,7 +1137,7 @@
                     <h2 style="margin-bottom: 0.5rem;">${currentBuddy.name}</h2>
                     <p style="color: #667eea; font-weight: 600; margin-bottom: 1rem;">${currentBuddy.major} • Year ${currentBuddy.year}</p>
                     <div style="color: #ffc107; font-size: 1.2rem; margin-bottom: 1rem;">
-                        ⭐ ${currentBuddy.rating} (${currentBuddy.reviews} reviews)
+                        ⭐ ${currentBuddy.rating.toFixed(1)} (${currentBuddy.reviews} reviews)
                     </div>
                 </div>
 
@@ -797,7 +1176,9 @@
         });
 
         // Initialize
-        displayBuddies(buddies);
+        loadBuddies();
+        displayBuddies(allBuddies);
+        displayHomeBuddies(allBuddies);
     </script>
 </body>
 </html>
