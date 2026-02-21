@@ -15,7 +15,7 @@
 - Member 2: [Angela Babu] - [Viswajyothi College Of Engineering and Technology]
 
 ### Hosted Project Link
-[https://your-hosted-project-link.com](https://your-hosting-url)
+[https://angela3107.github.io/Fresher-Buddy-System/]
 
 ### Project Description
 Campus Buddy is a comprehensive web-based platform that connects newly admitted students (freshers) with experienced senior students who act as mentors and buddies. The platform facilitates meaningful mentoring relationships through buddy matching, real-time messaging, and collaborative learning opportunities. Freshers get guidance on academics, campus life, events, clubs, and more from verified mentors.
